@@ -1,0 +1,7 @@
+h2 Projects
+
+- each project in projects
+  p
+    a(href: '/projects/' + project.id, title: 'Edit project')= project.name
+
+a(href: '/projects/new', title: 'New project') New project

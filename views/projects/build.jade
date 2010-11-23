@@ -1,0 +1,16 @@
+h2 Project
+
+p
+  | Name:
+  = project.name
+
+#build
+  strong STDOUT
+  = build.stdout
+  br
+  strong STDERR
+  = build.stderr
+  br
+
+p
+  a(href: '/projects/' + project.id) Back

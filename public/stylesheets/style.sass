@@ -1,0 +1,26 @@
+!default_fonts = "Helvetica Neue, Helvetica, Arial, sans-serif"
+
+!text_color = #333
+!link_color = #ed1556
+!link_bg = #fff
+
+html
+  :background-color #e0e0e0
+
+body
+  :font-size 100%
+  :font-family !default_fonts
+  :color !text_color
+
+a
+  :color !link_color
+  :text-decoration none
+  &:hover
+    :color !link_bg
+    :background-color !link_color
+
+#build.success
+  :background-color green
+
+#build.failure
+  :background-color red

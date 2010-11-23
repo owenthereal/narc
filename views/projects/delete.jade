@@ -1,0 +1,11 @@
+h2 Delete Project
+
+form(action: '/projects/' + project.id, method: 'post')
+  input(type: 'hidden', name: '_method', value: 'delete')
+  p Are you sure you want to delete this project?
+
+  p
+    a(href: '/projects/' + project.id) cancel
+
+  p.submit
+    button.positive(type: 'submit') Delete project
