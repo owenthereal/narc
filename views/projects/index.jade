@@ -1,7 +1,14 @@
 h2 Projects
 
-- each project in projects
-  p
-    a(href: '/projects/' + project.id, title: 'Edit project')= project.name
+table
+  - each project in projects
+    tr
+      td
+        a(href: '/projects/' + project.id, title: 'Edit project')= project.name
+      td
+        - if (project.builds.length)
+          = project.builds[project.builds.length - 1].success
+        - else
+          | NA
 
 a(href: '/projects/new', title: 'New project') New project

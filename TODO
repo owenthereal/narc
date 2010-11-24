@@ -1,0 +1,4 @@
+TODO
+- scm integration (git at least)
+- api (or at least a url to hit to trigger a fresh build)
+- plugin architecture (pre/post build hooks, output parsing, notifications, etc)

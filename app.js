@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express'),
     util = require('util'),
     exec = require('child_process').exec,
     sass = require('sass'),
