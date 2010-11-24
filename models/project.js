@@ -4,6 +4,7 @@ mongoose.model('Project', {
 
   properties: [
     'name',
+    'repository_url',
     'command',
     {
       builds: [[

@@ -40,21 +40,27 @@ module.exports = function(app) {
         stdout: '',
         stderr: ''
       };
-      var process = exec(project.command, function(error, stdout, stderr) {
-        build.stdout = stdout;
-        build.stderr = stderr;
-        if (error !== null) {
-          build.success = false;
-        } else {
-          build.success = true;
-        }
-        project.builds.push(build);
-        project.save(function() {
-          res.render('projects/build', {
-            locals: {
-              project: project,
-              build: build
+      // TODO: Extract this junk out into something that can be tested and extensible.
+      var src_dir = '/tmp/narc/' + project.id;
+      var scm_process = exec('mkdir -p ' + src_dir, function(error, stdout, stderr) {
+        var clone_process = exec('cd ' + src_dir + ' && rm -rf repo && git clone ' + project.repository_url + ' repo', function(error, stdout, stderr) {
+          var process = exec('cd ' + src_dir + '/repo && ' + project.command, function(error, stdout, stderr) {
+            build.stdout = stdout;
+            build.stderr = stderr;
+            if (error !== null) {
+              build.success = false;
+            } else {
+              build.success = true;
             }
+            project.builds.push(build);
+            project.save(function() {
+              res.render('projects/build', {
+                locals: {
+                  project: project,
+                  build: build
+                }
+              });
+            });
           });
         });
       });
@@ -92,6 +98,7 @@ module.exports = function(app) {
   app.put('/projects/:id', function(req, res) {
     Project.findById(req.params.id, function(project) {
       project.name = req.body['project[name]'];
+      project.repository_url = req.body['project[repository_url]'];
       project.command = req.body['project[command]'];
       project.save(function() {
         res.redirect('/projects/' + project.id);
