@@ -3,6 +3,6 @@
 print = (data) -> console.log data.toString().trim()
 
 task 'test', 'Test the app', (options) ->
-  nodeunit = spawn './deps/nodeunit/bin/nodeunit', ['test']
-  nodeunit.stdout.on 'data', print
-  nodeunit.stderr.on 'data', print
+  expresso = spawn 'expresso', ['test']
+  expresso.stdout.on 'data', print
+  expresso.stderr.on 'data', print
