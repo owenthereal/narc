@@ -2,8 +2,12 @@
   "name": "narc",
   "version": "0.0.1",
   "dependencies": {
+    "connect-assetmanager": "",
+    "connect-assetmanager-handlers": "",
     "express": "",
+    "jade": "",
     "mongoose": "",
-    "pattern": ""
+    "pattern": "",
+    "sass": ""
   }
 }

@@ -1,28 +1,73 @@
 require.paths.unshift('./node_modules');
 
-var express = require('express'),
-    util = require('util'),
-    exec = require('child_process').exec,
-    sass = require('sass'),
-    mongoose = require('mongoose').Mongoose
-    ;
+var util = require('util'),
+    exec = require('child_process').exec;
 
-var db = mongoose.connect('mongodb://localhost/narc');
+var express = require('express');
+var assetManager = require('connect-assetmanager');
+var assetHandler = require('connect-assetmanager-handlers');
+var sass = require('sass');
+var Mongoose = require('mongoose').Mongoose;
+
+var db = Mongoose.connect('mongodb://localhost/narc');
 
 Project = require('./models/project.js').Project(db);
 
 var pub = __dirname + '/public';
 
+var sass_compile = function(file, path, index, isLast, callback) {
+  if (path.match(/\.sass$/)) {
+    callback(sass.render(file));
+  } else {
+    callback(file);
+  }
+};
+
+var assets = assetManager({
+  css: {
+    route: /\/static\/css\/[0-9]+\/.*\.css/,
+    path: './public/css/',
+    dataType: 'css',
+    files: [
+      'styles.sass'
+    ],
+    preManipulate: {
+      'msie [6-7]': [
+        sass_compile,
+        assetHandler.fixVendorPrefixes,
+        assetHandler.fixGradients,
+        assetHandler.stripDataUrlsPrefix
+      ],
+      '^': [
+        sass_compile,
+        assetHandler.fixVendorPrefixes,
+        assetHandler.fixGradients,
+        assetHandler.replaceImageRefToBase64(__dirname + '/public')
+      ]
+    },
+    postManipulate: {
+      '^': [
+        assetHandler.yuiCssOptimize, function(file, path, index, isLast, callback) {
+          callback(file);
+          // dummyTimestamps.css = Date.now();
+        }
+      ]
+    }
+  }
+});
+
 var app = express.createServer(
-  express.compiler({
-    src: pub,
-    enable: ['sass']
-  }),
   express.bodyDecoder(),
   express.methodOverride()
 );
 
 app.set('view engine', 'jade');
+
+app.dynamicHelpers({
+  cacheTimestamps: function(req, res) {
+    return assets.cacheTimestamps;
+  }
+});
 
 app.configure(function() {
   app.use(express.methodOverride());
@@ -34,6 +79,7 @@ app.configure(function() {
     dumpExceptions: true,
     showStack: true
   }));
+  app.use(assets);
 });
 
 /*
