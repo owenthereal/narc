@@ -1,5 +1,6 @@
 var inspect = require('sys').inspect;
 var exec = require('child_process').exec;
+var GitAdapter = require('../lib/git_adapter.js');
 
 module.exports = function(app) {
 
@@ -42,8 +43,11 @@ module.exports = function(app) {
       };
       // TODO: Extract this junk out into something that can be tested and extensible.
       var src_dir = '/tmp/narc/' + project.id;
-      var scm_process = exec('mkdir -p ' + src_dir, function(error, stdout, stderr) {
-        var clone_process = exec('cd ' + src_dir + ' && rm -rf repo && git clone ' + project.repository_url + ' repo', function(error, stdout, stderr) {
+      var gitAdapter = GitAdapter.new(project.repository_url, src_dir + '/repo');
+      var scm_cmd = 'mkdir -p ' + src_dir + ' && cd ' + src_dir + ' && rm -rf repo && mkdir repo';
+      console.log(scm_cmd);
+      var scm_process = exec(scm_cmd, function(error, stdout, stderr) {
+        gitAdapter.setup(function(error) {
           var process = exec('cd ' + src_dir + '/repo && ' + project.command, function(error, stdout, stderr) {
             build.stdout = stdout;
             build.stderr = stderr;

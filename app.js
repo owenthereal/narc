@@ -49,16 +49,12 @@ app.configure('production', function() {
 });
 */
 
-app.get('/', function(req, res) {
-  res.render('home', {
-    locals: {
-      pageTitle: 'Foo!',
-      sideBarContent: null
-    }
-  });
-});
-
+require(__dirname + '/controllers/default_controller.js')(app);
 require(__dirname + '/controllers/project_controller.js')(app);
 
-app.listen(8080);
-console.log('Express server starting on port %s', app.address().port);
+exports.server = function() {
+  return app;
+};
+
+// app.listen(8080);
+// console.log('Express server starting on port %s', app.address().port);

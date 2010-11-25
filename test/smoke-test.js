@@ -1,11 +1,21 @@
-// exports.testSmoke = function(test) {
-  // test.expect(1);
-  // test.ok(true, 'this assertion should pass');
-  // test.done();
-// };
-
 var assert = require('assert');
 
-exports['test smoke'] = function() {
-  assert.ok(true);
+var app = require('../app.js').server();
+
+module.exports = {
+
+  // 'test smoke': function() {
+    // assert.ok(true);
+  // },
+
+  'test response': function() {
+    assert.response(app, {
+      url: '/',
+      method: 'GET',
+      timeout: 500
+    }, {
+      status: 200
+    });
+  },
+
 };
