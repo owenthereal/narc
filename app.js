@@ -1,3 +1,5 @@
+require.paths.unshift('./node_modules');
+
 var express = require('express'),
     util = require('util'),
     exec = require('child_process').exec,
