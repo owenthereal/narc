@@ -1,8 +1,5 @@
 require.paths.unshift('./node_modules');
 
-var util = require('util'),
-    exec = require('child_process').exec;
-
 var express = require('express');
 var assetManager = require('connect-assetmanager');
 var assetHandler = require('connect-assetmanager-handlers');

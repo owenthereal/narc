@@ -1,1 +1,8 @@
-h2 Narc
+h2 Projects
+
+ul.projects
+  - each project in projects
+    li(class: project.lastBuild() ? (project.lastBuild().success ? 'success' : 'failure') : '')
+      a(href: '/projects/' + project.id, title: 'Edit project')= project.name || '(Unknown)'
+
+a(href: '/projects/new', title: 'New project') New project

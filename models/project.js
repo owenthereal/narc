@@ -1,6 +1,6 @@
-var mongoose = require('mongoose').Mongoose;
+var Mongoose = require('mongoose').Mongoose;
 
-mongoose.model('Project', {
+Mongoose.model('Project', {
 
   properties: [
     'name',
@@ -24,6 +24,14 @@ mongoose.model('Project', {
     id: function() {
       return this._id.toHexString();
     }
+  },
+
+  methods: {
+
+    lastBuild: function() {
+      return this.builds[this.builds.length - 1]
+    }
+
   }
 
 });

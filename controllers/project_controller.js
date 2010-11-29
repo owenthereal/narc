@@ -34,7 +34,7 @@ module.exports = function(app) {
 
   app.get('/projects/:id/build', function(req, res) {
     Project.findById(req.params.id, function(project) {
-      project.builds = [];
+      // project.builds = [];
       build = {
         created_at: new Date(),
         success: null,
