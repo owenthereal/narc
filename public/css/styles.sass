@@ -1,3 +1,9 @@
+// Mixins
++rounded-corners
+  :-moz-border-radius 5px
+  :-webkit-border-radius 5px
+  :border-radius 5px
+
 !text_color = #333
 !link_color = #ed1556
 !link_bg = #fff
@@ -26,6 +32,7 @@ a
 ul.projects
   :margin 1em 0 2em
   li
+    :background-color white
     :border solid 1px black
     :list-style none
     a
@@ -33,17 +40,20 @@ ul.projects
       :font-size 2em
       :font-weight bold
       :padding 0.25em
-    &.failure
-      :background-color #ffbbaa
-      :border-color #dd9988
-      a
+    span.status
+      +rounded-corners
+      :border-style solid
+      :border-width 1px
+      :display inline
+      :float right
+      :font-size 1em
+      :font-weight bold
+      :padding 2px 8px
+      &.failure
+        :background-color #ffddcc
+        :border-color #dd9988
         :color #ff1100
-        &:hover
-          :background-color #ffddcc
-    &.success
-      :background-color #bbf8aa
-      :border-color #99d688
-      a
+      &.success
+        :background-color #ddffcc
+        :border-color #99d688
         :color #337022
-        &:hover
-          :background-color #ddffcc
