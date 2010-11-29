@@ -93,7 +93,7 @@ module.exports = function(app) {
 
   app.post('/projects', function(req, res) {
     var project = new Project();
-    project.name = req.body['project[name]'];
+    project.name = req.body['project']['name'];
     project.save(function() {
       res.redirect('/projects/' + project.id);
     });
@@ -101,9 +101,9 @@ module.exports = function(app) {
 
   app.put('/projects/:id', function(req, res) {
     Project.findById(req.params.id, function(project) {
-      project.name = req.body['project[name]'];
-      project.repository_url = req.body['project[repository_url]'];
-      project.command = req.body['project[command]'];
+      project.name = req.body['project']['name'];
+      project.repository_url = req.body['project']['repository_url'];
+      project.command = req.body['project']['command'];
       project.save(function() {
         res.redirect('/projects/' + project.id);
       });
