@@ -43,7 +43,7 @@ module.exports = function(app) {
       };
       // TODO: Extract this junk out into something that can be tested and extensible.
       var src_dir = '/tmp/narc/' + project.id;
-      var gitAdapter = GitAdapter.new(project.repository_url, src_dir + '/repo');
+      var gitAdapter = GitAdapter.new(project.repository_url, project.branch, src_dir + '/repo');
       var scm_cmd = 'mkdir -p ' + src_dir + ' && cd ' + src_dir + ' && rm -rf repo && mkdir repo';
       console.log(scm_cmd);
       var scm_process = exec(scm_cmd, function(error, stdout, stderr) {
@@ -103,6 +103,7 @@ module.exports = function(app) {
     Project.findById(req.params.id, function(project) {
       project.name = req.body['project']['name'];
       project.repository_url = req.body['project']['repository_url'];
+      project.branch = req.body['project']['branch'];
       project.command = req.body['project']['command'];
       project.save(function() {
         res.redirect('/projects/' + project.id);

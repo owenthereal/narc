@@ -10,6 +10,10 @@ form(action: '/projects/' + project.id, method: 'post')
   label(for: 'project[repository_url]') Repository URL
   input(type: 'text', name: 'project[repository_url]', value: project.repository_url)
   br
+  
+  label(for: 'project[branch]') Branch
+  input(type: 'text', name: 'project[branch]', value: project.branch)
+  br
 
   label(for: 'project[command]') Command
   textarea(name: 'project[command]')= project.command
