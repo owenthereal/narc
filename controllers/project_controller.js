@@ -104,6 +104,7 @@ module.exports = function(app) {
       project.name = req.body['project']['name'];
       project.repository_url = req.body['project']['repository_url'];
       project.branch = req.body['project']['branch'];
+      project.slug = req.body['project']['slug'];
       project.command = req.body['project']['command'];
       project.save(function() {
         res.redirect('/projects/' + project.id);

@@ -7,6 +7,7 @@ Mongoose.model('Project', {
     'repository_url',
     'command',
     'branch',
+    'slug',
     {
       builds: [[
         'created_at',

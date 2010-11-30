@@ -6,6 +6,10 @@ form(action: '/projects/' + project.id, method: 'post')
   label(for: 'project[name]') Name
   input(type: 'text', name: 'project[name]', value: project.name)
   br
+  
+  label(for: 'project[slug]') Slug
+  input(type: 'text', name: 'project[slug]', value: project.slug)
+  br
 
   label(for: 'project[repository_url]') Repository URL
   input(type: 'text', name: 'project[repository_url]', value: project.repository_url)
