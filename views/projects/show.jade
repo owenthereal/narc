@@ -5,13 +5,13 @@ p
   = project.name
 
 p
-  a(href: '/projects/' + project.id + '/build', title: 'Rebuild') Rebuild
+  a(href: build_project_path(project), title: 'Rebuild') Rebuild
   | &nbsp;
-  a(href: '/projects/' + project.id + '/edit', title: 'Edit project') Edit
+  a(href: edit_project_path(project), title: 'Edit project') Edit
   | &nbsp;
-  a(href: '/projects/' + project.id + '/delete', title: 'Delete project') Delete
+  a(href: delete_project_path(project), title: 'Delete project') Delete
   | &nbsp;
-  a(href: '/projects', title: 'Projects') Back
+  a(href: projects_path(), title: 'Projects') Back
 
 #builds
   p Builds:
@@ -32,10 +32,10 @@ p
         pre= build.stderr
       br
 p
-  a(href: '/projects/' + project.id + '/build', title: 'Rebuild') Rebuild
+  a(href: build_project_path(project), title: 'Rebuild') Rebuild
   | &nbsp;
-  a(href: '/projects/' + project.id + '/edit', title: 'Edit project') Edit
+  a(href: edit_project_path(project), title: 'Edit project') Edit
   | &nbsp;
-  a(href: '/projects/' + project.id + '/delete', title: 'Delete project') Delete
+  a(href: delete_project_path(project), title: 'Delete project') Delete
   | &nbsp;
-  a(href: '/projects', title: 'Projects') Back
+  a(href: projects_path(), title: 'Projects') Back

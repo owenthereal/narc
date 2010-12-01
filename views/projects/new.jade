@@ -1,9 +1,9 @@
 h2 New Project
 
-form(action: '/projects', method: 'post')
+form(action: projects_path(), method: 'post')
   label(for: 'project[name]') Name
   input(type: 'text', name: 'project[name]')
 
   p.submit
-    a(href: '/projects') cancel
+    a(href: projects_path()) cancel
     button.positive(type: 'submit') Create project

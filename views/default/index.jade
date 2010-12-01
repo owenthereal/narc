@@ -3,7 +3,7 @@ h2 Projects
 ul.projects
   - each project in projects
     li
-      a(href: '/projects/' + project.key, title: 'View project')
+      a(href: project_path(project), title: 'View project')
         span= project.name || '(Unknown)'
         - if (project.lastBuild())
           - if (project.lastBuild().success == true)
@@ -11,4 +11,4 @@ ul.projects
           - else
             span(class: 'status failure', href: '/projects/' + project.id, title: 'Last build failed') failure
 
-a(href: '/projects/new', title: 'New project') New project
+a(href: new_project_path(), title: 'New project') New project

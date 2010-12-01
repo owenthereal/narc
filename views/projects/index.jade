@@ -4,11 +4,11 @@ table
   - each project in projects
     tr
       td
-        a(href: '/projects/' + project.id, title: 'Edit project')= project.name
+        a(href: project_path(project), title: 'Edit project')= project.name
       td
         - if (project.builds.length)
           = project.builds[project.builds.length - 1].success
         - else
           | NA
 
-a(href: '/projects/new', title: 'New project') New project
+a(href: new_project_path(), title: 'New project') New project

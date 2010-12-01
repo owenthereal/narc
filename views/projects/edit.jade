@@ -1,6 +1,6 @@
 h2 Edit Project
 
-form(action: '/projects/' + project.id, method: 'post')
+form(action: project_path(project), method: 'post')
   input(type: 'hidden', name: '_method', value: 'put')
 
   label(for: 'project[name]') Name
@@ -23,5 +23,5 @@ form(action: '/projects/' + project.id, method: 'post')
   textarea(name: 'project[buildCommand]')= project.buildCommand
   
   p.submit
-    a(href: '/projects/' + project.id) cancel
+    a(href: project_path(project)) cancel
     button.positive(type: 'submit') Update project

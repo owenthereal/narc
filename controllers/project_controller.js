@@ -84,7 +84,7 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id/delete', function(req, res) {
-    Project.findById(req.params.id, function(project) {
+    Project.get(req.params.id, function(error, project) {
       res.render('projects/delete', {
         locals: {
           project: project
