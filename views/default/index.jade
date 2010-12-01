@@ -3,7 +3,7 @@ h2 Projects
 ul.projects
   - each project in projects
     li
-      a(href: '/projects/' + project.id, title: 'View project')
+      a(href: '/projects/' + project.key, title: 'View project')
         span= project.name || '(Unknown)'
         - if (project.lastBuild())
           - if (project.lastBuild().success == true)
