@@ -6,8 +6,10 @@
     "connect-assetmanager-handlers": "",
     "express": "",
     "jade": "",
-    "mongoose": "",
+    "mongodb": "",
     "pattern": "",
-    "sass": ""
+    "step": "",
+    "sass": "",
+    "underscore": ""
   }
 }

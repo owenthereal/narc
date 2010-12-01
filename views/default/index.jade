@@ -5,9 +5,10 @@ ul.projects
     li
       a(href: '/projects/' + project.id, title: 'View project')
         span= project.name || '(Unknown)'
-        - if (project.lastBuild() && project.lastBuild().success)
-          span(class: 'status success', href: '/projects/' + project.id, title: 'Edit project') success
-        - else if (project.lastBuild() && !project.lastBuild().success)
-          span(class: 'status failure', href: '/projects/' + project.id, title: 'Edit project') failure
+        - if (project.lastBuild())
+          - if (project.lastBuild().success == true)
+            span(class: 'status success', href: '/projects/' + project.id, title: 'Last build succeeded') success
+          - else
+            span(class: 'status failure', href: '/projects/' + project.id, title: 'Last build failed') failure
 
 a(href: '/projects/new', title: 'New project') New project

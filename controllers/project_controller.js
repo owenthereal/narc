@@ -1,11 +1,11 @@
 var inspect = require('sys').inspect;
 var exec = require('child_process').exec;
-var GitAdapter = require('../lib/git_adapter.js');
+var GitAdapter = require('narc/git_adapter.js');
 
 module.exports = function(app) {
 
   app.get('/projects', function(req, res) {
-    Project.find().all(function(projects) {
+    Project.all(function(error, projects) {
       res.render('projects/index', {
         locals: {
           projects: projects
@@ -17,13 +17,13 @@ module.exports = function(app) {
   app.get('/projects/new', function(req, res) {
     res.render('projects/new', {
       locals: {
-        project: new Project()
+        project: {}
       }
     });
   });
 
   app.get('/projects/:id', function(req, res) {
-    Project.findById(req.params.id, function(project) {
+    Project.get(req.params.id, function(error, project) {
       res.render('projects/show', {
         locals: {
           project: project
@@ -33,9 +33,8 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id/build', function(req, res) {
-    Project.findById(req.params.id, function(project) {
-      // project.builds = [];
-      build = {
+    Project.get(req.params.id, function(error, project) {
+      var build = {
         created_at: new Date(),
         success: null,
         stdout: '',
@@ -43,12 +42,12 @@ module.exports = function(app) {
       };
       // TODO: Extract this junk out into something that can be tested and extensible.
       var src_dir = '/tmp/narc/' + project.id;
-      var gitAdapter = GitAdapter.new(project.repository_url, project.branch, src_dir + '/repo');
+      var gitAdapter = GitAdapter.new(project.repositoryUrl, project.branchName, src_dir + '/repo');
       var scm_cmd = 'mkdir -p ' + src_dir + ' && cd ' + src_dir + ' && rm -rf repo && mkdir repo';
       console.log(scm_cmd);
       var scm_process = exec(scm_cmd, function(error, stdout, stderr) {
         gitAdapter.setup(function(error) {
-          var process = exec('cd ' + src_dir + '/repo && ' + project.command, function(error, stdout, stderr) {
+          var process = exec('cd ' + src_dir + '/repo && ' + project.buildCommand, function(error, stdout, stderr) {
             build.stdout = stdout;
             build.stderr = stderr;
             if (error !== null) {
@@ -56,8 +55,11 @@ module.exports = function(app) {
             } else {
               build.success = true;
             }
+            if (!project.builds) {
+              project.builds = [];
+            }
             project.builds.push(build);
-            project.save(function() {
+            project.save(function(error) {
               res.render('projects/build', {
                 locals: {
                   project: project,
@@ -72,7 +74,7 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id/edit', function(req, res) {
-    Project.findById(req.params.id, function(project) {
+    Project.get(req.params.id, function(error, project) {
       res.render('projects/edit', {
         locals: {
           project: project
@@ -92,28 +94,24 @@ module.exports = function(app) {
   });
 
   app.post('/projects', function(req, res) {
-    var project = new Project();
-    project.name = req.body['project']['name'];
-    project.save(function() {
+    var project = Project.new(req.body['project']);
+    project.save(function(error) {
       res.redirect('/projects/' + project.id);
     });
   });
 
   app.put('/projects/:id', function(req, res) {
-    Project.findById(req.params.id, function(project) {
-      project.name = req.body['project']['name'];
-      project.repository_url = req.body['project']['repository_url'];
-      project.branch = req.body['project']['branch'];
-      project.command = req.body['project']['command'];
-      project.save(function() {
-        res.redirect('/projects/' + project.id);
+    Project.get(req.params.id, function(error, project) {
+      project.updateAttributes(req.body['project']);
+      project.save(function(error) {
+        res.redirect('/projects/' + req.params.id);
       });
     });
   });
 
   app.del('/projects/:id', function(req, res) {
-    Project.findById(req.params.id, function(project) {
-      project.remove(function() {
+    Project.get(req.params.id, function(error, project) {
+      project.destroy(function() {
         res.redirect('/projects');
       });
     });

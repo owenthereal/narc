@@ -1,14 +1,25 @@
-require.paths.unshift('./node_modules');
+require.paths.unshift(__dirname + '/node_modules');
+require.paths.unshift(__dirname + '/lib');
 
 var express = require('express');
 var assetManager = require('connect-assetmanager');
 var assetHandler = require('connect-assetmanager-handlers');
 var sass = require('sass');
-var Mongoose = require('mongoose').Mongoose;
 
-var db = Mongoose.connect('mongodb://localhost/narc');
+var fs = require('fs');
+var mongo = require('mongodb');
 
-Project = require('./models/project.js').Project(db);
+try {
+  var configJSON = fs.readFileSync(__dirname + '/config/app.json');
+} catch(e) {
+  console.log('File config/app.json not found. Try: `cp config/app.json.sample config/app.json`');
+}
+var config = JSON.parse(configJSON.toString());
+
+var db = new mongo.Db('narc', new mongo.Server(config.mongo_host, config.mongo_port, {}), {});
+db.open(function(connection) {
+  Project = require('narc/project').Project(db);
+});
 
 var pub = __dirname + '/public';
 

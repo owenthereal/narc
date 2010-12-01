@@ -7,20 +7,21 @@ p
 #builds
   p Builds:
   br
-  - each build in project.builds.reverse()
-    #build(class: build.success == true ? 'success' : 'failure')
-      = build.created_at
-      - if (build.success == true)
-        p SUCCESS!
-      - else
-        p FAIL!
+  - if (project.builds)
+    - each build in project.builds.sort(function(a, b) { return b.created_at - a.created_at })
+      #build(class: build.success == true ? 'success' : 'failure')
+        = build.created_at
+        - if (build.success == true)
+          p SUCCESS!
+        - else
+          p FAIL!
+        br
+        strong STDOUT
+        pre= build.stdout
+        br
+        strong STDERR
+        pre= build.stderr
       br
-      strong STDOUT
-      pre= build.stdout
-      br
-      strong STDERR
-      pre= build.stderr
-    br
 p
   a(href: '/projects/' + project.id + '/build', title: 'Rebuild') Rebuild
   | &nbsp;
