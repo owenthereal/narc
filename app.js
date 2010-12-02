@@ -14,9 +14,9 @@ try {
 } catch(e) {
   console.log('File config/app.json not found. Try: `cp config/app.json.sample config/app.json`');
 }
-var config = JSON.parse(configJSON.toString());
+global.config = JSON.parse(configJSON.toString());
 
-var db = new mongo.Db('narc', new mongo.Server(config.mongo_host, config.mongo_port, {}), {});
+var db = new mongo.Db('narc', new mongo.Server(global.config.mongo_host, global.config.mongo_port, {}), {});
 db.open(function(connection) {
   Project = require('narc/project').Project(db);
 });

@@ -1,5 +1,6 @@
 var inspect = require('sys').inspect;
 var util = require('util');
+var Email = require('email').Email;
 
 var Worker = require('webworker').Worker;
 
@@ -51,7 +52,21 @@ module.exports = function(app) {
         }
         project.builds.push(build);
         project.save(function(error) {
-          // done
+          // notifiy
+          if (project.notificationEmailAddress) {
+            var body = "Project: " + project.name + "\n\nSTDOUT\n" + build.stdout + "\nSTDERR\n" + build.stderr;
+            var message = new Email({
+              from: global.config.notification_email_address,
+              to: project.notificationEmailAddress,
+              subject: 'Narc Build Notification',
+              body: body
+            });
+            message.send(function(error) {
+              if (error !== undefined && error !== null) {
+                console.log('Error sending notification email: %s', util.inspect(error));
+              }
+            });
+          }
         });
       };
       console.log('Talking to the build worker...');

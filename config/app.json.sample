@@ -1,6 +1,8 @@
 {
   "name": "Narc",
 
+  "notification_email_address": "narc@localhost",
+
   "mongo_host": "localhost",
   "mongo_port": 27017
 }

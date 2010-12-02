@@ -21,6 +21,10 @@ form(action: project_path(project), method: 'post')
 
   label(for: 'project[buildCommand]') Command
   textarea(name: 'project[buildCommand]')= project.buildCommand
+  br
+
+  label(for: 'project[notificationEmailAddress]') Notification email address
+  input(type: 'text', name: 'project[notificationEmailAddress]', value: project.notificationEmailAddress)
   
   p.submit
     a(href: project_path(project)) cancel
