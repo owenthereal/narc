@@ -1,12 +1,12 @@
 require.paths.unshift(__dirname + '/node_modules');
 require.paths.unshift(__dirname + '/lib');
 
+var fs = require('fs');
 var express = require('express');
 var assetManager = require('connect-assetmanager');
 var assetHandler = require('connect-assetmanager-handlers');
 var sass = require('sass');
 
-var fs = require('fs');
 var mongo = require('mongodb');
 
 try {

@@ -1,6 +1,7 @@
 var inspect = require('sys').inspect;
-var exec = require('child_process').exec;
-var GitAdapter = require('narc/git_adapter.js');
+var util = require('util');
+
+var Worker = require('webworker').Worker;
 
 module.exports = function(app) {
 
@@ -34,42 +35,39 @@ module.exports = function(app) {
 
   app.get('/projects/:id/build', function(req, res) {
     Project.get(req.params.id, function(error, project) {
+      var buildWorker = new Worker(__dirname + '/../lib/narc/workers/build_worker.js');
+      buildWorker.onmessage = function(message) {
+        // console.log('%s', util.inspect(message));
+        buildWorker.terminate();
+
+        var build = {
+          created_at: new Date(),
+          success: message.data.success,
+          stdout: message.data.stdout,
+          stderr: message.data.stderr
+        };
+        if (!project.builds) {
+          project.builds = [];
+        }
+        project.builds.push(build);
+        project.save(function(error) {
+          // done
+        });
+      };
+      console.log('Talking to the build worker...');
+      buildWorker.postMessage({
+        projectId: project.id,
+        repositoryUrl: project.repositoryUrl,
+        buildCommand: project.buildCommand,
+        branchName: project.branchName,
+      });
       var build = {
         created_at: new Date(),
         success: null,
         stdout: '',
         stderr: ''
       };
-      // TODO: Extract this junk out into something that can be tested and extensible.
-      var src_dir = '/tmp/narc/' + project.id;
-      var gitAdapter = GitAdapter.new(project.repositoryUrl, project.branchName, src_dir + '/repo');
-      var scm_cmd = 'mkdir -p ' + src_dir + ' && cd ' + src_dir + ' && rm -rf repo && mkdir repo';
-      console.log(scm_cmd);
-      var scm_process = exec(scm_cmd, function(error, stdout, stderr) {
-        gitAdapter.setup(function(error) {
-          var process = exec('cd ' + src_dir + '/repo && ' + project.buildCommand, function(error, stdout, stderr) {
-            build.stdout = stdout;
-            build.stderr = stderr;
-            if (error !== null) {
-              build.success = false;
-            } else {
-              build.success = true;
-            }
-            if (!project.builds) {
-              project.builds = [];
-            }
-            project.builds.push(build);
-            project.save(function(error) {
-              res.render('projects/build', {
-                locals: {
-                  project: project,
-                  build: build
-                }
-              });
-            });
-          });
-        });
-      });
+      res.redirect('/projects/' + project.key);
     });
   });
 
