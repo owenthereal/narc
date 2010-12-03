@@ -1,21 +1,7 @@
-var assert = require('assert');
+var testCase = require('nodeunit').testCase;
 
-var app = require('../app.js').server();
-
-module.exports = {
-
-  // 'test smoke': function() {
-    // assert.ok(true);
-  // },
-
-  'test response': function() {
-    assert.response(app, {
-      url: '/',
-      method: 'GET',
-      timeout: 500
-    }, {
-      status: 200
-    });
-  },
-
+exports.testSmoke = function(test) {
+  test.expect(1);
+  test.ok(true);
+  test.done();
 };
