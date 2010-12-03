@@ -107,8 +107,8 @@ app.configure('production', function() {
 
 require('narc/helpers/path_helpers')(app);
 
-require(__dirname + '/controllers/default_controller.js')(app);
-require(__dirname + '/controllers/project_controller.js')(app);
+require('narc/controllers/default_controller.js')(app);
+require('narc/controllers/project_controller.js')(app);
 
 exports.server = function() {
   return app;
