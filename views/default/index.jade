@@ -8,6 +8,7 @@ ul.projects
           = project.name || '(Unknown)'
           - if (project.lastBuild())
             - var build = project.lastBuild();
+            - console.log(build)
             - if (build.tests)
               = ' -- Tests: ' + build.tests
             - if (build.assertions)

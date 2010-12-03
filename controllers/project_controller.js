@@ -1,6 +1,8 @@
 var inspect = require('sys').inspect;
 var util = require('util');
 var Email = require('email').Email;
+var sys = require('sys')
+var spawn = require('child_process').spawn;
 
 var Worker = require('webworker').Worker;
 var buildParser = require('narc/build_parser').buildParser;
