@@ -21,6 +21,8 @@ db.open(function(connection) {
   Project = require('narc/project').Project(db);
 });
 
+var BuildParser = require('narc/build_parser').BuildParser;
+
 var pub = __dirname + '/public';
 
 var sass_compile = function(file, path, index, isLast, callback) {

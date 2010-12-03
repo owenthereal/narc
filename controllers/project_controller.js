@@ -3,6 +3,7 @@ var util = require('util');
 var Email = require('email').Email;
 
 var Worker = require('webworker').Worker;
+var buildParser = require('narc/build_parser').buildParser;
 
 module.exports = function(app) {
 
@@ -40,13 +41,16 @@ module.exports = function(app) {
       buildWorker.onmessage = function(message) {
         // console.log('%s', util.inspect(message));
         buildWorker.terminate();
-
+        
         var build = {
           created_at: new Date(),
           success: message.data.success,
           stdout: message.data.stdout,
           stderr: message.data.stderr
         };
+        
+        build = buildParser(build);
+        
         if (!project.builds) {
           project.builds = [];
         }
