@@ -19,7 +19,7 @@ module.exports = testCase({
   testKeyReturnsIdWhenSlugIsEmpty: function(test) {
     test.expect(1);
 
-    var project = Project.new({
+    var project = new Project({
       _id: mockId('id')
     });
 
@@ -31,7 +31,7 @@ module.exports = testCase({
   testKeyReturnsSlugWhenSlugIsNotempty: function(test) {
     test.expect(1);
 
-    var project = Project.new({
+    var project = new Project({
       _id: mockId('id'),
       slug: 'foo'
     });
