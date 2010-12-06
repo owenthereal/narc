@@ -66,6 +66,12 @@ var assets = assetManager({
   }
 });
 
+function NotFound(msg) {
+  this.name = 'NotFound';
+  Error.call(this, msg);
+  Error.captureStackTrace(this, arguments.callee);
+}
+
 var app = express.createServer(
   express.bodyDecoder(),
   express.methodOverride()
@@ -105,14 +111,34 @@ app.configure('production', function() {
 });
 */
 
+app.error(function(err, req, res, next) {
+  if (err instanceof NotFound) {
+    res.render('404.ejs', {
+      locals: { },
+      status: 404,
+      layout: false
+    });
+  } else {
+    res.render('500.ejs', {
+      locals: {
+        error: err
+      },
+      status: 500,
+      layout: false
+    });
+  }
+});
+
 require('narc/helpers/path_helpers')(app);
 
 require('narc/controllers/default_controller.js')(app);
 require('narc/controllers/project_controller.js')(app);
 
-exports.server = function() {
-  return app;
-};
+app.get('/*', function(req, res) {
+  throw new NotFound;
+});
+
+exports.server = app;
 
 // app.listen(8080);
 // console.log('Express server starting on port %s', app.address().port);

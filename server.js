@@ -1,4 +1,4 @@
-var server = require('./app.js').server();
+var server = require('./app.js').server;
 var util = require('util');
 
 try {

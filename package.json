@@ -4,6 +4,7 @@
   "dependencies": {
     "connect-assetmanager": "",
     "connect-assetmanager-handlers": "",
+    "ejs": "",
     "email": "",
     "express": "",
     "jade": "",
