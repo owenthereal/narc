@@ -1,41 +1,40 @@
-h2 Project
+#project-detail.section
 
-p
-  | Name:
-  = project.name
+  .section-header
+    h2 Project:
+      = project.name
+    .actions
+      ul
+        li
+          a(href: build_project_path(project), title: 'Rebuild project') Rebuild
+        li
+          a(href: edit_project_path(project), title: 'Edit project') Edit
+        li
+          a(href: delete_project_path(project), title: 'Delete project') Delete
+        li
+          a(href: projects_path(), title: 'Projects') Back
 
-p
-  a(href: build_project_path(project), title: 'Rebuild') Rebuild
-  | &nbsp;
-  a(href: edit_project_path(project), title: 'Edit project') Edit
-  | &nbsp;
-  a(href: delete_project_path(project), title: 'Delete project') Delete
-  | &nbsp;
-  a(href: projects_path(), title: 'Projects') Back
-
-#builds
-  p Builds:
-  br
-  - if (project.builds)
-    - each build in project.builds.sort(function(a, b) { return b.created_at - a.created_at })
-      #build(class: build.success == true ? 'success' : 'failure')
-        = build.created_at
-        - if (build.success == true)
-          p SUCCESS!
-        - else
-          p FAIL!
-        br
-        strong STDOUT
-        pre= build.stdout
-        br
-        strong STDERR
-        pre= build.stderr
-      br
-p
-  a(href: build_project_path(project), title: 'Rebuild') Rebuild
-  | &nbsp;
-  a(href: edit_project_path(project), title: 'Edit project') Edit
-  | &nbsp;
-  a(href: delete_project_path(project), title: 'Delete project') Delete
-  | &nbsp;
-  a(href: projects_path(), title: 'Projects') Back
+  .section-details
+    h3 Builds:
+    - if (project.builds)
+      - each build in project.builds.sort(function(a, b) { return b.created_at - a.created_at })
+        .build(class: build.success == true ? 'success' : 'failure')
+          h4= build.created_at
+          .build-output
+            p STDOUT
+            .stdout
+              pre= build.stdout
+            p STDERR
+            .stderr
+              pre= build.stderr
+  .section-footer
+    .actions
+      ul
+        li
+          a(href: build_project_path(project), title: 'Rebuild project') Rebuild
+        li
+          a(href: edit_project_path(project), title: 'Edit project') Edit
+        li
+          a(href: delete_project_path(project), title: 'Delete project') Delete
+        li
+          a(href: projects_path(), title: 'Projects') Back

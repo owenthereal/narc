@@ -1,0 +1,152 @@
+//** SCREEN STYLES **//
+
+// Imports --------------------------------------------------------------
+
+@import "defaults";
+@import "compass/layout/sticky_footer";
+
+/* Layout -------------------------------------------------------------- */
+
+@include susy;
+
+/* Styles -------------------------------------------------------------- */
+
+$base-font-size: 16px;
+$base-line-height: 24px;
+
+$total-cols: 12;
+$col-width: 4em;
+$gutter-width: 1em;
+$side-gutter-width: $gutter-width;
+
+#container {
+  @include container;
+  // @include show-grid('grid.png');
+  // * {
+    // background-color: rgba(0,0,0,.125);
+  // }
+}
+
+a {
+  text-decoration: none;
+}
+
+#header {
+  @include full;
+  // @include prefix(3);
+  @include alpha;
+  @include adjust-font-size-to(32px);
+  @include leader(1,32px);
+
+  h1 {
+    // @include columns(3);
+    @include float-left;
+    margin: 0;
+    span.tagline {
+      @include adjust-font-size-to(6px);
+      margin-left: 10px;
+    }
+  }
+  ul {
+    @include float-right;
+    @include horizontal-list;
+  }
+  li {
+    a {
+      @include adjust-font-size-to(10px);
+    }
+  }
+}
+
+#content {
+  // @include columns(9);
+  @include full;
+  // @include omega;
+  @include trailer(1,32px);
+  border-top: solid 1px black;
+  padding-top: 32px;
+}
+
+#footer {
+  @include full;
+}
+
+.actions {
+  ul {
+    @include horizontal-list;
+  }
+}
+
+.project-list {
+  @include full;
+  ul {
+    @include no-bullets
+  }
+  li {
+    .status {
+      float: right;
+    }
+  }
+}
+
+.section {
+  @include full;
+  .section-header {
+    @include clearfix;
+    h2 {
+      @include float-left;
+    }
+    .actions {
+      @include float-right;
+    }
+  }
+  .section-footer {
+    @include clearfix;
+    .actions {
+      @include float-right;
+    }
+  }
+}
+
+#project-detail {
+  .build {
+    @include adjust-font-size-to(14px);
+    h4 {
+      @include adjust-font-size-to(18px);
+      margin-bottom: 4px;
+    }
+    padding: 0 0 30px 0;
+    .build-output {
+      p {
+	margin: 0;
+	padding: 0;
+      }
+      .stdout {
+	margin: 0;
+      }
+      .stderr {
+	margin: 0;
+      }
+      pre {
+	margin: 0;
+	padding: 10px;
+      }
+    }
+    &.success {
+      .build-output .stdout {
+        background-color: #65ff65;
+      }
+      .build-output .stderr {
+        background-color: #65ff65;
+      }
+    }
+    &.failure {
+      .build-output .stdout {
+        background-color: #ff6565;
+      }
+      .build-output .stderr {
+        background-color: #ff6565;
+      }
+    }
+  }
+}

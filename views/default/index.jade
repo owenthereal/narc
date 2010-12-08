@@ -1,29 +1,30 @@
 h2 Projects
 
-ul.projects
-  - each project in projects
-    li
-      a(href: project_path(project), title: 'View project')
-        span
-          = project.name || '(Unknown)'
-          - if (project.lastBuild())
-            - var build = project.lastBuild();
-            - console.log(build)
-            - if (build.tests)
-              = ' -- Tests: ' + build.tests
-            - if (build.assertions)
-              = ', Assertions: ' + build.assertions
-            - if (build.failures)
-              = ', Failures: ' + build.failures
-            - if (build.errors)
-              = ', Errors: ' + build.errors
-            - if (build.skips)
-              = ', Skips: ' + build.skips
-            - if (project.lastBuild().success == true)
-              span(class: 'status success') success
-            - else
-              span(class: 'status failure') 
-                img(src: 'http://www.fart-sounds.net/fart-soundboard.gif', width: 30, height: 30)
-                | failure
+.project-list
+  ul
+    - each project in projects
+      li
+        a(href: project_path(project), title: 'View project')
+          span
+            = project.name || '(Unknown)'
+            - if (project.lastBuild())
+              - var build = project.lastBuild();
+              - console.log(build)
+              - if (build.tests)
+                = ' -- Tests: ' + build.tests
+              - if (build.assertions)
+                = ', Assertions: ' + build.assertions
+              - if (build.failures)
+                = ', Failures: ' + build.failures
+              - if (build.errors)
+                = ', Errors: ' + build.errors
+              - if (build.skips)
+                = ', Skips: ' + build.skips
+              - if (project.lastBuild().success == true)
+                span(class: 'status success') success
+              - else
+                span(class: 'status failure') 
+                  img(src: 'http://www.fart-sounds.net/fart-soundboard.gif', width: 30, height: 30)
+                  | failure
 
-a(href: new_project_path(), title: 'New project') New project
+  a(href: new_project_path(), title: 'New project') New project

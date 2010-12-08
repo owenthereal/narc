@@ -5,7 +5,7 @@ var fs = require('fs');
 var express = require('express');
 var assetManager = require('connect-assetmanager');
 var assetHandler = require('connect-assetmanager-handlers');
-var sass = require('sass');
+// var sass = require('sass');
 
 var mongo = require('mongodb');
 
@@ -25,46 +25,46 @@ var BuildParser = require('narc/build_parser').BuildParser;
 
 var pub = __dirname + '/public';
 
-var sass_compile = function(file, path, index, isLast, callback) {
-  if (path.match(/\.sass$/)) {
-    callback(sass.render(file));
-  } else {
-    callback(file);
-  }
-};
+// var sass_compile = function(file, path, index, isLast, callback) {
+  // if (path.match(/\.sass$/)) {
+    // callback(sass.render(file));
+  // } else {
+    // callback(file);
+  // }
+// };
 
-var assets = assetManager({
-  css: {
-    route: /\/static\/css\/[0-9]+\/.*\.css/,
-    path: './public/css/',
-    dataType: 'css',
-    files: [
-      'styles.sass'
-    ],
-    preManipulate: {
-      'msie [6-7]': [
-        sass_compile,
-        assetHandler.fixVendorPrefixes,
-        assetHandler.fixGradients,
-        assetHandler.stripDataUrlsPrefix
-      ],
-      '^': [
-        sass_compile,
-        assetHandler.fixVendorPrefixes,
-        assetHandler.fixGradients,
-        assetHandler.replaceImageRefToBase64(__dirname + '/public')
-      ]
-    },
-    postManipulate: {
-      '^': [
-        assetHandler.yuiCssOptimize, function(file, path, index, isLast, callback) {
-          callback(file);
-          // dummyTimestamps.css = Date.now();
-        }
-      ]
-    }
-  }
-});
+// var assets = assetManager({
+  // css: {
+    // route: /\/static\/css\/[0-9]+\/.*\.css/,
+    // path: './public/css/',
+    // dataType: 'css',
+    // files: [
+      // 'styles.sass'
+    // ],
+    // preManipulate: {
+      // 'msie [6-7]': [
+        // sass_compile,
+        // assetHandler.fixVendorPrefixes,
+        // assetHandler.fixGradients,
+        // assetHandler.stripDataUrlsPrefix
+      // ],
+      // '^': [
+        // sass_compile,
+        // assetHandler.fixVendorPrefixes,
+        // assetHandler.fixGradients,
+        // assetHandler.replaceImageRefToBase64(__dirname + '/public')
+      // ]
+    // },
+    // postManipulate: {
+      // '^': [
+        // assetHandler.yuiCssOptimize, function(file, path, index, isLast, callback) {
+          // callback(file);
+ //         // dummyTimestamps.css = Date.now();
+        // }
+      // ]
+    // }
+  // }
+// });
 
 function NotFound(msg) {
   this.name = 'NotFound';
@@ -79,11 +79,11 @@ var app = express.createServer(
 
 app.set('view engine', 'jade');
 
-app.dynamicHelpers({
-  cacheTimestamps: function(req, res) {
-    return assets.cacheTimestamps;
-  }
-});
+// app.dynamicHelpers({
+  // cacheTimestamps: function(req, res) {
+    // return assets.cacheTimestamps;
+  // }
+// });
 
 app.configure(function() {
   app.use(express.methodOverride());
@@ -95,7 +95,7 @@ app.configure(function() {
     dumpExceptions: true,
     showStack: true
   }));
-  app.use(assets);
+  // app.use(assets);
 });
 
 /*
