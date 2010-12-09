@@ -1,3 +1,13 @@
+:javascript
+  | var socket = new io.Socket();
+  | socket.connect();
+  | socket.on('message', function(msg) {
+  |   var data = JSON.parse(msg);
+  |   if(data.stdout)
+  |     $('#current-build #stdout').append(data.stdout.replace("\\n",'<br />'));
+  |   if(data.stderr)
+  |     $('#current-build #stderr').append(data.stderr.replace("\\n",'<br />'));
+  | });
 #project-detail.section
 
   .section-header
@@ -16,6 +26,12 @@
 
   .section-details
     h3 Builds:
+    #current-build
+      h4 Current Build
+      #stdout
+        h5 STDOUT
+      #stderr
+        h5 STDERR
     - if (project.builds)
       - each build in project.builds.sort(function(a, b) { return b.created_at - a.created_at })
         .build(class: build.success == true ? 'success' : 'failure')
