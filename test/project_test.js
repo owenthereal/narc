@@ -1,12 +1,12 @@
 require.paths.unshift(__dirname + '/../node_modules');
-require.paths.unshift(__dirname + '/../lib');
+require.paths.unshift(__dirname + '/../app');
 
 var testCase = require('nodeunit').testCase;
 
 var mockDb = {
   createCollection: function() { }
 };
-var Project = require('narc/project').Project(mockDb);
+var Project = require('models/project').Project(mockDb);
 
 var mockId = function(id) {
   return {

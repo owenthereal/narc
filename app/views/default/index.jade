@@ -23,8 +23,6 @@ h2 Projects
               - if (project.lastBuild().success == true)
                 span(class: 'status success') success
               - else
-                span(class: 'status failure') 
-                  img(src: 'http://www.fart-sounds.net/fart-soundboard.gif', width: 30, height: 30)
-                  | failure
+                span(class: 'status failure') failure
 
   a(href: new_project_path(), title: 'New project') New project

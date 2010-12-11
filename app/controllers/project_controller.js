@@ -4,7 +4,7 @@ var util = require('util');
 var Email = require('email').Email;
 var spawn = require('child_process').spawn;
 var Worker = require('webworker').Worker;
-var buildParser = require('narc/build_parser').buildParser;
+var buildParser = require('build_parser').buildParser;
 var json = JSON.stringify;
 
 module.exports = function(app) {

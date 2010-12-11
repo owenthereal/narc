@@ -1,5 +1,5 @@
 TODO
-- exception handling
-- scm integration (git at least); w/ option to poll for changes
+- log errors and application events
+- option to poll a git repo for changes
 - api (or at least a url to hit to trigger a fresh build)
 - plugin architecture (pre/post build hooks, output parsing, notifications, etc)

@@ -4,8 +4,8 @@ var exec = require('child_process').exec,
     spawn = require('child_process').spawn
     ;
 
-require.paths.unshift(path.join(__dirname + '/../../../node_modules'));
-require.paths.unshift(path.join(__dirname + '/../../../lib'));
+require.paths.unshift(path.join(__dirname + '/../../node_modules'));
+require.paths.unshift(path.join(__dirname + '/../../app'));
 
 onmessage = function(message) {
 
@@ -13,7 +13,7 @@ onmessage = function(message) {
 
   try {
     var src_dir = '/tmp/narc/' + message.data.projectId;
-    var GitAdapter = require('narc/git_adapter');
+    var GitAdapter = require('git_adapter');
     var gitAdapter = new GitAdapter(message.data.repositoryUrl, message.data.branchName, src_dir + '/repo');
     var scm_cmd = 'mkdir -p ' + src_dir + ' && cd ' + src_dir + ' && rm -rf repo && mkdir repo';
     console.log(scm_cmd);
