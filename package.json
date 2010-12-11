@@ -10,8 +10,9 @@
     "jade": "",
     "mongodb": "",
     "nodeunit": "",
-    "step": "",
     "sass": "",
+    "socket.io": "",
+    "step": "",
     "underscore": "",
     "webworker": ""
   }
