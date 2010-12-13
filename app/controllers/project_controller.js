@@ -28,7 +28,7 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
+    Project.find(req.params.id, function(error, project) {
       res.render('projects/show', {
         locals: {
           project: project
@@ -38,34 +38,31 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id/build', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
+    Project.find(req.params.id, function(error, project) {
       var buildWorker = new Worker(__dirname + '/../workers/build_worker.js');
       buildWorker.onmessage = function(message) {
         // console.log('%s', util.inspect(message));
         if(message.data.finished)
         {
           buildWorker.terminate();
-        
+
           var build = {
             created_at: new Date(),
             success: message.data.success,
             stdout: message.data.stdout,
             stderr: message.data.stderr
           };
-        
+
           build = buildParser(build);
-        
-          if (!project.builds) {
-            project.builds = [];
-          }
-          project.builds.push(build);
+
+          project.builds().push(build);
           project.save(function(error) {
             // notifiy
-            if (project.notificationEmailAddress) {
-              var body = "Project: " + project.name + "\n\nSTDOUT\n" + build.stdout + "\nSTDERR\n" + build.stderr;
+            if (project.notificationEmailAddress()) {
+              var body = "Project: " + project.name() + "\n\nSTDOUT\n" + build.stdout + "\nSTDERR\n" + build.stderr;
               var message = new Email({
                 from: global.config.notification_email_address,
-                to: project.notificationEmailAddress,
+                to: project.notificationEmailAddress(),
                 subject: 'Narc Build Notification -- ' + project.name + ' -- ' + (build.success ? 'SUCCESS' : 'FAILURE'),
                 body: body
               });
@@ -80,7 +77,7 @@ module.exports = function(app) {
         else
         {
           output = {
-            'stdout': message.data.stdout, 
+            'stdout': message.data.stdout,
             'stderr': message.data.stderr
           };
           console.log(output.stdout);
@@ -89,10 +86,10 @@ module.exports = function(app) {
       };
       console.log('Talking to the build worker...');
       buildWorker.postMessage({
-        projectId: project.id,
-        repositoryUrl: project.repositoryUrl,
-        buildCommand: project.buildCommand,
-        branchName: project.branchName,
+        projectId: project.id(),
+        repositoryUrl: project.repositoryUrl(),
+        buildCommand: project.buildCommand(),
+        branchName: project.branchName(),
       });
       var build = {
         created_at: new Date(),
@@ -100,12 +97,12 @@ module.exports = function(app) {
         stdout: '',
         stderr: ''
       };
-      res.redirect('/projects/' + project.key);
+      res.redirect('/projects/' + project.key());
     });
   });
 
   app.get('/projects/:id/edit', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
+    Project.find(req.params.id, function(error, project) {
       res.render('projects/edit', {
         locals: {
           project: project
@@ -115,7 +112,7 @@ module.exports = function(app) {
   });
 
   app.get('/projects/:id/delete', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
+    Project.find(req.params.id, function(error, project) {
       res.render('projects/delete', {
         locals: {
           project: project
@@ -127,22 +124,24 @@ module.exports = function(app) {
   app.post('/projects', function(req, res) {
     var project = new Project(req.body['project']);
     project.save(function(error) {
-      res.redirect('/projects/' + project.id);
+      res.redirect('/projects/' + project.id());
     });
   });
 
   app.put('/projects/:id', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
-      project.updateAttributes(req.body['project']);
-      project.save(function(error) {
+    Project.find(req.params.id, function(error, project) {
+      console.log('e: ' + error)
+      // console.log('%s', util.inspect(req.body['project']));
+      project.updateAttributes(req.body['project'], function(error, project) {
+        console.log('error: ' + error);
         res.redirect('/projects/' + req.params.id);
       });
     });
   });
 
   app.del('/projects/:id', function(req, res) {
-    Project.get(req.params.id, function(error, project) {
-      project.destroy(function() {
+    Project.find(req.params.id, function(error, project) {
+      project.delete(function() {
         res.redirect('/projects');
       });
     });

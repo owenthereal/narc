@@ -12,7 +12,7 @@
 
   .section-header
     h2 Project:
-      = project.name
+      = project.name()
     .actions
       ul
         li
@@ -32,8 +32,8 @@
         h5 STDOUT
       #stderr
         h5 STDERR
-    - if (project.builds)
-      - each build in project.builds.sort(function(a, b) { return b.created_at - a.created_at })
+    - if (project.builds())
+      - each build in project.builds().sort(function(a, b) { return b.created_at - a.created_at })
         .build(class: build.success == true ? 'success' : 'failure')
           h4= build.created_at
           .build-output

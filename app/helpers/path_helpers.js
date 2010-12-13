@@ -9,15 +9,15 @@ module.exports = function(app) {
     /* Project path helpers */
 
     build_project_path: function(project) {
-      return '/projects/' + project.key + '/build';
+      return '/projects/' + project.key() + '/build';
     },
 
     delete_project_path: function(project) {
-      return '/projects/' + project.key + '/delete';
+      return '/projects/' + project.key() + '/delete';
     },
 
     edit_project_path: function(project) {
-      return '/projects/' + project.key + '/edit';
+      return '/projects/' + project.key() + '/edit';
     },
 
     new_project_path: function(project) {
@@ -25,7 +25,7 @@ module.exports = function(app) {
     },
 
     project_path: function(project) {
-      return '/projects/' + project.key;
+      return '/projects/' + project.key();
     },
 
     projects_path: function() {

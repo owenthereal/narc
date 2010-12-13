@@ -6,7 +6,7 @@ var testCase = require('nodeunit').testCase;
 var mockDb = {
   createCollection: function() { }
 };
-var Project = require('models/project').Project(mockDb);
+var Project = require('models/project').Project;
 
 var mockId = function(id) {
   return {
@@ -23,7 +23,7 @@ module.exports = testCase({
       _id: mockId('id')
     });
 
-    test.equal('id', project.key);
+    test.equal('id', project.key());
 
     test.done();
   },
@@ -36,7 +36,7 @@ module.exports = testCase({
       slug: 'foo'
     });
 
-    test.equal('foo', project.key);
+    test.equal('foo', project.key());
 
     test.done();
   }

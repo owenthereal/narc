@@ -4,28 +4,28 @@ form(action: project_path(project), method: 'post')
   input(type: 'hidden', name: '_method', value: 'put')
 
   label(for: 'project[name]') Name
-  input(type: 'text', name: 'project[name]', value: project.name)
+  input(type: 'text', name: 'project[name]', value: project.name())
   br
-  
+
   label(for: 'project[slug]') Slug
-  input(type: 'text', name: 'project[slug]', value: project.slug)
+  input(type: 'text', name: 'project[slug]', value: project.slug())
   br
 
   label(for: 'project[repositoryUrl]') Repository URL
-  input(type: 'text', name: 'project[repositoryUrl]', value: project.repositoryUrl)
+  input(type: 'text', name: 'project[repositoryUrl]', value: project.repositoryUrl())
   br
-  
+
   label(for: 'project[branchName]') Branch
-  input(type: 'text', name: 'project[branchName]', value: project.branchName)
+  input(type: 'text', name: 'project[branchName]', value: project.branchName())
   br
 
   label(for: 'project[buildCommand]') Command
-  textarea(name: 'project[buildCommand]')= project.buildCommand
+  textarea(name: 'project[buildCommand]')= project.buildCommand()
   br
 
   label(for: 'project[notificationEmailAddress]') Notification email address
-  input(type: 'text', name: 'project[notificationEmailAddress]', value: project.notificationEmailAddress)
-  
+  input(type: 'text', name: 'project[notificationEmailAddress]', value: project.notificationEmailAddress())
+
   p.submit
     a(href: project_path(project)) cancel
     button.positive(type: 'submit') Update project

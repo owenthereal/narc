@@ -6,7 +6,7 @@ h2 Projects
       li
         a(href: project_path(project), title: 'View project')
           span
-            = project.name || '(Unknown)'
+            = project.name() || '(Unknown)'
             - if (project.lastBuild())
               - var build = project.lastBuild();
               - console.log(build)

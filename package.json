@@ -9,6 +9,7 @@
     "log4js": "",
     "mongodb": "",
     "nodeunit": "",
+    "noid": "",
     "socket.io": "",
     "step": "",
     "underscore": "",

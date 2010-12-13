@@ -4,10 +4,10 @@ table
   - each project in projects
     tr
       td
-        a(href: project_path(project), title: 'Edit project')= project.name
+        a(href: project_path(project), title: 'Edit project')= project.name()
       td
-        - if (project.builds.length)
-          = project.builds[project.builds.length - 1].success
+        - if (project.builds().length)
+          = project.lastBuild().success
         - else
           | NA
 
