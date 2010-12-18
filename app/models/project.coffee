@@ -1,6 +1,7 @@
 _ = require('underscore')._
 require('noid')
 Document = require('noid/document').Document
+ObjectID = require('mongodb/bson/bson').ObjectID
 
 class Project extends Document
 
@@ -24,11 +25,11 @@ class Project extends Document
     _.last(@builds())
 
   @find: (key, callback) ->
+    self = this
     @findFirst { conditions: { slug: key } }, (error, project) ->
       if project?
         callback null, project
         return
-      console.log('Falling back to id')
-      @findFirst { conditions: { id: key } }, callback
+      self.findFirst { conditions: { _id: ObjectID.createFromHexString(key) } }, callback
 
 exports.Project = Project
