@@ -63,7 +63,7 @@ module.exports = function(app) {
               var message = new Email({
                 from: global.config.notification_email_address,
                 to: project.notificationEmailAddress(),
-                subject: 'Narc Build Notification -- ' + project.name + ' -- ' + (build.success ? 'SUCCESS' : 'FAILURE'),
+                subject: 'Narc Build Notification -- ' + project.name() + ' -- ' + (build.success ? 'SUCCESS' : 'FAILURE'),
                 body: body
               });
               message.send(function(error) {

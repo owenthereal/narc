@@ -24,10 +24,11 @@ class Project extends Document
     _.last(@builds())
 
   @find: (key, callback) ->
-    @findFirst { key: key }, (error, project) ->
+    @findFirst { conditions: { slug: key } }, (error, project) ->
       if project?
         callback null, project
         return
-      @findFirst { id: key }, callback
+      console.log('Falling back to id')
+      @findFirst { conditions: { id: key } }, callback
 
 exports.Project = Project
