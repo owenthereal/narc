@@ -3,7 +3,7 @@ require 'susy'
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir = "public/css"
-sass_dir = "views/stylesheets"
+sass_dir = "app/views/stylesheets"
 images_dir = "public/images"
 javascripts_dir = "public/javascripts"
 # To enable relative paths to assets via compass helper functions. Uncomment:

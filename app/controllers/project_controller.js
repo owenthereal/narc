@@ -78,7 +78,8 @@ module.exports = function(app) {
         {
           output = {
             'stdout': message.data.stdout,
-            'stderr': message.data.stderr
+            'stderr': message.data.stderr,
+            'project_id': req.params.id
           };
           console.log(output.stdout);
           socket.broadcast(json(output));
